@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import precision_score, recall_score
+from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
 from keras.models import Sequential
 from keras.layers import *
 from keras.optimizers import Adam
@@ -10,6 +10,7 @@ import os
 import random
 import matplotlib.pyplot as plt
 from keras.utils import to_categorical
+import seaborn as sns
 
 # Set seed for reproducibility
 seed_constant = 7
@@ -112,7 +113,7 @@ model_training_history = model.fit(x=features_train, y=labels_train, epochs=50, 
 # Plot training and validation accuracy
 plt.plot(model_training_history.history['accuracy'], label='Training Accuracy')
 plt.plot(model_training_history.history['val_accuracy'], label='Validation Accuracy')
-plt.title('Training and Validation Accuracy for convlstm')
+plt.title('Training and Validation Accuracy for CONVLSTM2D_LSTM')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
@@ -121,7 +122,7 @@ plt.show()
 # Plot training and validation loss
 plt.plot(model_training_history.history['loss'], label='Training Loss')
 plt.plot(model_training_history.history['val_loss'], label='Validation Loss')
-plt.title('Training and Validation Loss for convlstm')
+plt.title('Training and Validation Loss for CONVLSTM2D_LSTM')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
@@ -130,5 +131,30 @@ plt.show()
 # Evaluate the model on the test set
 test_loss, test_accuracy = model.evaluate(features_test, labels_test)
 print(f'Test Loss: {test_loss:.4f}')
-print(f'Test Accuracy: {test_accuracy:.4f}')
-model.save("Suspicious_Human_Activity_Detection_CONVLSTM.keras")
+print(f'Test Accuracy (CONVLSTM2D_LSTM): {test_accuracy:.4f}')
+
+# Calculate precision, recall, F1 score, and confusion matrix
+predictions = model.predict(features_test)
+predictions_classes = np.argmax(predictions, axis=1)
+labels_test_classes = np.argmax(labels_test, axis=1)
+
+precision = precision_score(labels_test_classes, predictions_classes, average='weighted')
+recall = recall_score(labels_test_classes, predictions_classes, average='weighted')
+f1_score_value = f1_score(labels_test_classes, predictions_classes, average='weighted')
+conf_matrix = confusion_matrix(labels_test_classes, predictions_classes)
+
+print(f'Weighted Precision: {precision:.4f}')
+print(f'Weighted Recall: {recall:.4f}')
+print(f'Weighted F1 Score: {f1_score_value:.4f}')
+print("Confusion Matrix:")
+print(conf_matrix)
+
+# Plot confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix, annot=True, cmap='Blues', fmt='g', xticklabels=CLASSES_LIST, yticklabels=CLASSES_LIST)
+plt.title('Confusion Matrix For CONVLSTM2D_LSTM')
+plt.xlabel('Predicted Labels')
+plt.ylabel('True Labels')
+plt.show()
+
+model.save("Suspicious_Human_Activity_Detection_CONVLSTM2D_LSTM.keras")
