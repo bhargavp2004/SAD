@@ -113,7 +113,7 @@ model_training_history = model.fit(x=features_train, y=labels_train, epochs=50, 
 # Plot training and validation accuracy
 plt.plot(model_training_history.history['accuracy'], label='Training Accuracy')
 plt.plot(model_training_history.history['val_accuracy'], label='Validation Accuracy')
-plt.title('Training and Validation Accuracy for CONVLSTM2D_BILSTM')
+plt.title('Training and Validation Accuracy for CONVLSTM2D+BILSTM')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
@@ -122,7 +122,7 @@ plt.show()
 # Plot training and validation loss
 plt.plot(model_training_history.history['loss'], label='Training Loss')
 plt.plot(model_training_history.history['val_loss'], label='Validation Loss')
-plt.title('Training and Validation Loss for CONVLSTM2D_BILSTM')
+plt.title('Training and Validation Loss for CONVLSTM2D+BILSTM')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
@@ -131,7 +131,7 @@ plt.show()
 # Evaluate the model on the test set
 test_loss, test_accuracy = model.evaluate(features_test, labels_test)
 print(f'Test Loss: {test_loss:.4f}')
-print(f'Test Accuracy (CONVLSTM2D_BILSTM): {test_accuracy:.4f}')
+print(f'Test Accuracy (CONVLSTM2D+BILSTM): {test_accuracy:.4f}')
 
 # Calculate precision, recall, F1 score, and confusion matrix
 predictions = model.predict(features_test)
@@ -152,9 +152,9 @@ print(conf_matrix)
 # Plot confusion matrix
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix, annot=True, cmap='Blues', fmt='g', xticklabels=CLASSES_LIST, yticklabels=CLASSES_LIST)
-plt.title('Confusion Matrix For CONVLSTM2D_BILSTM')
+plt.title('Confusion Matrix For CONVLSTM2D+BILSTM')
 plt.xlabel('Predicted Labels')
 plt.ylabel('True Labels')
 plt.show()
 
-model.save("Suspicious_Human_Activity_Detection_CONVLSTM2D_BILSTM.keras")
+model.save("Suspicious_Human_Activity_Detection_CONVLSTM2D+BILSTM.keras")

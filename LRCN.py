@@ -88,9 +88,6 @@ def create_dataset():
                 features.append(frames)
                 labels.append(class_index)
                 video_files_paths.append(video_file_path)
-        print(f'Total frames for {class_name}: {class_frames}')
-        total_frames += class_frames
-        print("Total frames : ", total_frames)
 
     features = np.asarray(features)
     labels = np.array(labels)
@@ -111,43 +108,24 @@ def create_model():
     
     model.add(TimeDistributed(Conv2D(16, (3, 3), padding='same',activation = 'relu'),
                               input_shape = (SEQUENCE_LENGTH, IMAGE_HEIGHT, IMAGE_WIDTH, 3)))
-    print("After Conv2D layer 1:", model.output_shape)
 
-    model.add(TimeDistributed(MaxPooling2D((4, 4))))
-    print("After MaxPooling2D layer 1:", model.output_shape)
-    
+    model.add(TimeDistributed(MaxPooling2D((4, 4))))    
     model.add(TimeDistributed(Dropout(0.20)))
 
     model.add(TimeDistributed(Conv2D(32, (3, 3), padding='same',activation = 'relu')))
-    print("After Conv2D layer 2:", model.output_shape)
-
-    model.add(TimeDistributed(MaxPooling2D((4, 4))))
-    print("After MaxPooling2D layer 2:", model.output_shape)
-    
+    model.add(TimeDistributed(MaxPooling2D((4, 4))))    
     model.add(TimeDistributed(Dropout(0.20)))
 
     model.add(TimeDistributed(Conv2D(64, (3, 3), padding='same',activation = 'relu')))
-    print("After Conv2D layer 3:", model.output_shape)
-
     model.add(TimeDistributed(MaxPooling2D((2, 2))))
-    print("After MaxPooling2D layer 3:", model.output_shape)
-    
     model.add(TimeDistributed(Dropout(0.20)))
 
     model.add(TimeDistributed(Conv2D(64, (3, 3), padding='same',activation = 'relu')))
-    print("After Conv2D layer 4:", model.output_shape)
-
     model.add(TimeDistributed(MaxPooling2D((2, 2))))
-    print("After MaxPooling2D layer 4:", model.output_shape)
-
     model.add(TimeDistributed(Flatten()))
-    print("After Flatten layer:", model.output_shape)
 
     model.add(LSTM(32))
-    print("After LSTM layer:", model.output_shape)
-
     model.add(Dense(len(CLASSES_LIST), activation = 'softmax'))
-    print("After Dense layer:", model.output_shape)
 
     model.summary()
 
@@ -163,7 +141,7 @@ model_training_history = model.fit(features_train, labels_train, epochs=70, batc
 
 plt.plot(model_training_history.history['accuracy'], label='Training Accuracy')
 plt.plot(model_training_history.history['val_accuracy'], label='Validation Accuracy')
-plt.title('Training and Validation Accuracy for LRCN ')
+plt.title('Training and Validation Accuracy for CNN+LSTM(LRCN)')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
@@ -172,7 +150,7 @@ plt.show()
 # Plot training and validation loss
 plt.plot(model_training_history.history['loss'], label='Training Loss')
 plt.plot(model_training_history.history['val_loss'], label='Validation Loss')
-plt.title('Training and Validation Loss for LRCN ')
+plt.title('Training and Validation Loss for CNN+LSTM(LRCN)')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
@@ -180,7 +158,7 @@ plt.show()
 
 test_loss, test_accuracy = model.evaluate(features_test, labels_test)
 print(f'Test Loss: {test_loss:.4f}')
-print(f'Test Accuracy (LRCN): {test_accuracy:.4f}')
+print(f'Test Accuracy CNN+LSTM(LRCN): {test_accuracy:.4f}')
 predictions = model.predict(features_test)
 predictions_classes = np.argmax(predictions, axis=1)
 labels_test_classes = np.argmax(labels_test, axis=1)
@@ -197,8 +175,8 @@ print("Confusion Matrix:")
 print(conf_matrix)
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix, annot=True, cmap='Blues', fmt='g', xticklabels=CLASSES_LIST, yticklabels=CLASSES_LIST)
-plt.title('Confusion Matrix For LRCN')
+plt.title('Confusion Matrix For CNN+LSTM(LRCN)')
 plt.xlabel('Predicted Labels')
 plt.ylabel('True Labels')
 plt.show()
-model.save("Suspicious_Human_Activity_Detection_LRCN.keras")
+model.save("Suspicious_Human_Activity_Detection_CNN+LSTM.keras")

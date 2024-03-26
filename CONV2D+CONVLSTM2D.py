@@ -135,7 +135,7 @@ model_training_history = model.fit(features_train, labels_train, epochs=70, batc
 # Plot training and validation accuracy
 plt.plot(model_training_history.history['accuracy'], label='Training Accuracy')
 plt.plot(model_training_history.history['val_accuracy'], label='Validation Accuracy')
-plt.title('Training and Validation Accuracy for CONV2D_CONVLSTM ')
+plt.title('Training and Validation Accuracy for CONV2D+CONVLSTM2D ')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
@@ -144,7 +144,7 @@ plt.show()
 # Plot training and validation loss
 plt.plot(model_training_history.history['loss'], label='Training Loss')
 plt.plot(model_training_history.history['val_loss'], label='Validation Loss')
-plt.title('Training and Validation Loss for CONV2D_CONVLSTM ')
+plt.title('Training and Validation Loss for CONV2D+CONVLSTM2D ')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
@@ -153,7 +153,7 @@ plt.show()
 # Evaluate the model on test data
 test_loss, test_accuracy = model.evaluate(features_test, labels_test)
 print(f'Test Loss: {test_loss:.4f}')
-print(f'Test Accuracy (CONV2D_CONVLSTM): {test_accuracy:.4f}')
+print(f'Test Accuracy (CONV2D+CONVLSTM2D): {test_accuracy:.4f}')
 
 # Make predictions
 predictions = model.predict(features_test)
@@ -178,10 +178,10 @@ print(conf_matrix)
 # Plot heatmap for confusion matrix
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix, annot=True, cmap='Blues', fmt='g', xticklabels=CLASSES_LIST, yticklabels=CLASSES_LIST)
-plt.title('Confusion Matrix For CONV2D_CONVLSTM')
+plt.title('Confusion Matrix For CONV2D+CONVLSTM2D')
 plt.xlabel('Predicted Labels')
 plt.ylabel('True Labels')
 plt.show()
 
 # Save the model
-model.save("Suspicious_Human_Activity_Detection_CONV2D_CONVLSTM.keras")
+model.save("Suspicious_Human_Activity_Detection_CONV2D+CONVLSTM2D.keras")

@@ -21,7 +21,7 @@ tf.random.set_seed(seed_constant)
 IMAGE_HEIGHT , IMAGE_WIDTH = 64, 64
 
 # /media/b/DATA/B.TECH/6TH SEMESTER/Machine Learning/Project/Suspicious Activity Detection/Suspicious_Activity_Detection_ProjectML/Data_Extracted/Datasets/Datasets/Peliculas/Explosion
-SEQUENCE_LENGTH = 2
+SEQUENCE_LENGTH = 20
 total_frames = 0
 DATASET_DIR = r'D:\B.TECH\6TH SEMESTER\Machine Learning\Project\Suspicious Activity Detection\Suspicious_Activity_Detection_ProjectML\Data_Extracted\Datasets\Datasets\Peliculas2'
 
@@ -175,11 +175,11 @@ conf_matrix = confusion_matrix(labels_test_classes, predictions_classes)
 
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", xticklabels=CLASSES_LIST, yticklabels=CLASSES_LIST)
-plt.title("Confusion Matrix for CONVLSTM2D_CONV2D_BILSTM")
+plt.title("Confusion Matrix for CONVLSTM2D+CONV2D+BILSTM")
 plt.xlabel("Predicted Labels")
 plt.ylabel("True Labels")
 plt.show()
 
-model.save("Suspicious_Human_Activity_Detection_CONVLSTM2D_CONV2D_BILSTM.keras")
+model.save("Suspicious_Human_Activity_Detection_CONVLSTM2D+CONV2D+BILSTM.keras")
 
 
